@@ -1,0 +1,28 @@
+services:
+
+  postgres:
+    image: postgres:18
+    container_name: urlshortner-postgres
+
+    environment:
+      POSTGRES_DB: urlshortner
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: UrlShortnerDev_2026!
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./postgres/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+
+  redis:
+    image: redis:latest
+    container_name: urlshortner-redis
+
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
